@@ -157,8 +157,9 @@ async function main() {
     );
     const edges = accAppsRes?.data?.account?.byName?.appsPaginated?.edges || [];
     const apps = edges.map((e) => e?.node).filter(Boolean);
+    const repoNames = ["sanathana_darm", "sanatan-darma"];
     const matchedApp =
-      apps.find((a) => a.githubRepository?.metadata?.githubRepoName?.toLowerCase() === "sanathana_darm") ||
+      apps.find((a) => repoNames.includes(a.githubRepository?.metadata?.githubRepoName?.toLowerCase())) ||
       apps.find((a) => a.slug === currentSlug) ||
       apps.find((a) => a.slug?.toLowerCase().includes("sanat")) ||
       (apps.length === 1 ? apps[0] : null);
@@ -177,7 +178,7 @@ async function main() {
 
   // 2. Check candidate slugs via app.byFullName
   const candidateSlugs = Array.from(
-    new Set([currentSlug, "sanathana-darm", "sanathana_darm", "Sanathana_Darm", "sanatana-dharma"])
+    new Set([currentSlug, "sanatan-darma", "Sanatan-Darma", "sanathana-darm", "sanathana_darm", "Sanathana_Darm", "sanatana-dharma"])
   );
   for (const slug of candidateSlugs) {
     try {
