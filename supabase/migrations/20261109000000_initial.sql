@@ -15,8 +15,9 @@ alter table public.user_data enable row level security;
 drop policy if exists "Users manage their own data" on public.user_data;
 create policy "Users manage their own data"
   on public.user_data for all
-  using (auth.uid() = owner_id)
-  with check (auth.uid() = owner_id);
+  to authenticated
+  using ((select auth.uid()) = owner_id)
+  with check ((select auth.uid()) = owner_id);
 
 create table if not exists public.status_checks (
   id text primary key,
