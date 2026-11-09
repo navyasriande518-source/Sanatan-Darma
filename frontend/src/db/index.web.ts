@@ -1,31 +1,25 @@
-// Web preview fallback: same API as the native SQLite layer, persisted with
-// the shared storage helper (browser localStorage). Content is bundled.
-import { storage } from "@/src/utils/storage";
-import { USER_TABLES, UserTable } from "./schema";
-
-const cache: Partial<Record<UserTable, Record<string, any>>> = {};
+// Web and native builds share the Supabase user-data store. Content is bundled.
+import { ensureSupabaseSession, getSupabase } from "@/src/lib/supabase";
+import { UserTable } from "./schema";
 
 export async function initDb() {
-  for (const t of USER_TABLES) {
-    const raw = await storage.getItem(`tbl_${t}`, "{}");
-    try { cache[t] = JSON.parse(raw ?? "{}"); } catch { cache[t] = {}; }
-  }
+  await ensureSupabaseSession();
 }
 
-const flush = (t: UserTable) => storage.setItem(`tbl_${t}`, JSON.stringify(cache[t] ?? {}));
-
 export async function all<T = any>(table: UserTable): Promise<T[]> {
-  return Object.values(cache[table] ?? {}) as T[];
+  const { data, error } = await getSupabase().from("user_data").select("data").eq("table_name", table).order("updated_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((row) => row.data as T);
 }
 
 export async function put(table: UserTable, row: { id: string; [k: string]: any }) {
-  cache[table] = { ...(cache[table] ?? {}), [row.id]: row };
-  await flush(table);
+  const { data: { user }, error: userError } = await getSupabase().auth.getUser();
+  if (userError || !user) throw userError ?? new Error("Supabase session user is unavailable");
+  const { error } = await getSupabase().from("user_data").upsert({ owner_id: user.id, table_name: table, row_id: row.id, data: row, updated_at: new Date().toISOString() });
+  if (error) throw error;
 }
 
 export async function del(table: UserTable, id: string) {
-  const c = { ...(cache[table] ?? {}) };
-  delete c[id];
-  cache[table] = c;
-  await flush(table);
+  const { error } = await getSupabase().from("user_data").delete().eq("table_name", table).eq("row_id", id);
+  if (error) throw error;
 }

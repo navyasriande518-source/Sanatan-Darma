@@ -1,13 +1,15 @@
-// Native local database: SQLite (expo-sqlite). Metro picks index.web.ts on web.
+// User data is stored in Supabase. Content remains bundled locally for offline reading.
 import * as SQLite from "expo-sqlite";
 
 import { AUDIO_TRACKS, BOOKS, CATEGORIES } from "@/src/data/content";
+import { ensureSupabaseSession, getSupabase } from "@/src/lib/supabase";
 import { CONTENT_SQL, USER_TABLES, UserTable } from "./schema";
 
 const SEED_VERSION = "1";
 let db: SQLite.SQLiteDatabase | null = null;
 
 export async function initDb() {
+  await ensureSupabaseSession();
   db = await SQLite.openDatabaseAsync("sanatana.db");
   await db.execAsync("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;");
   await db.execAsync(CONTENT_SQL);
@@ -46,14 +48,25 @@ async function seed() {
 }
 
 export async function all<T = any>(table: UserTable): Promise<T[]> {
-  const rows = await db!.getAllAsync<{ data: string }>(`SELECT data FROM ${table} ORDER BY updated_at`);
-  return rows.map((r) => JSON.parse(r.data));
+  const { data, error } = await getSupabase()
+    .from("user_data")
+    .select("data")
+    .eq("table_name", table)
+    .order("updated_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((row) => row.data as T);
 }
 
 export async function put(table: UserTable, row: { id: string; [k: string]: any }) {
-  await db!.runAsync(`INSERT OR REPLACE INTO ${table} (id, data, updated_at) VALUES (?,?,?)`, row.id, JSON.stringify(row), new Date().toISOString());
+  const { data: { user }, error: userError } = await getSupabase().auth.getUser();
+  if (userError || !user) throw userError ?? new Error("Supabase session user is unavailable");
+  const { error } = await getSupabase().from("user_data").upsert({
+    owner_id: user.id, table_name: table, row_id: row.id, data: row, updated_at: new Date().toISOString(),
+  });
+  if (error) throw error;
 }
 
 export async function del(table: UserTable, id: string) {
-  await db!.runAsync(`DELETE FROM ${table} WHERE id = ?`, id);
+  const { error } = await getSupabase().from("user_data").delete().eq("table_name", table).eq("row_id", id);
+  if (error) throw error;
 }
