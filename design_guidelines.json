@@ -1,0 +1,117 @@
+{
+  "app_name": "Sanatana Dharma – Digital Library",
+  "personality": "3 Editorial Mobile LIGHT (Customized Traditional)",
+  "personality_one_liner": "A deeply traditional, devotional reading experience evoking ancient parchment, gold ornaments, and sacred maroon tones.",
+  "color": {
+    "surface": "#FFF9EB",
+    "onSurface": "#4B2415",
+    "surfaceSecondary": "#FFF2D5",
+    "onSurfaceSecondary": "#3D0808",
+    "surfaceTertiary": "#FDF5E6",
+    "onSurfaceTertiary": "#650D0D",
+    "surfaceInverse": "#3D0808",
+    "onSurfaceInverse": "#F5C65C",
+    "brand": "#650D0D",
+    "onBrand": "#FFF9EB",
+    "brandPrimary": "#D69A28",
+    "onBrandPrimary": "#3D0808",
+    "brandSecondary": "#F5C65C",
+    "onBrandSecondary": "#3D0808",
+    "brandTertiary": "#650D0D",
+    "onBrandTertiary": "#FFF9EB",
+    "success": "#2E4C31",
+    "onSuccess": "#FFF9EB",
+    "warning": "#D69A28",
+    "onWarning": "#3D0808",
+    "error": "#8B0000",
+    "onError": "#FFF9EB",
+    "info": "#4B2415",
+    "onInfo": "#FFF9EB",
+    "border": "#D69A28",
+    "borderStrong": "#F5C65C",
+    "divider": "#E6D5B8",
+    "muted": "#8C6239",
+    "gold": "#D69A28",
+    "highlight": "#F5C65C",
+    "parchment": "#FFF2D5"
+  },
+  "typography": {
+    "displayFontFamily": "Crimson Text",
+    "textFontFamily": "Crimson Text",
+    "scale": { "sm": 12, "base": 14, "lg": 16, "xl": 20, "2xl": 24 }
+  },
+  "spacing": { "rule": "Generous editorial spacing, allowing ornamental borders to breathe.", "xs": 4, "sm": 8, "md": 12, "lg": 16, "xl": 24, "2xl": 32, "3xl": 48 },
+  "radius_tokens": { "sm": 4, "md": 8, "lg": 16, "pill": 999 },
+  "shadow_tier": "1",
+  "navigation": "bottom_tabs",
+  "icon_set": "MaterialCommunityIcons",
+  "glassmorphism": {
+    "enabled": "false",
+    "do's": [],
+    "dont's": ["Avoid all SaaS gradients and glassmorphism as per user request."]
+  },
+  "platform_libraries": {
+    "glass": { "ios": "none", "android": "none", "low_end_android_fallback": "solid surfaceSecondary" },
+    "image": "expo-image",
+    "blur": "none",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Home",
+      "purpose": "Dashboard with daily shloka, continue reading, popular books, and mantras.",
+      "states": { "loading": "Centered golden spinner", "empty": "Lotus illustration with 'No recent activity'", "error": "Retry with 'Unable to load library'" },
+      "layout": "Devotional header illustration with maroon ribbon title banner. Rounded cream cards (surfaceSecondary) with subtle gold shadow. Golden lotus separators between sections."
+    },
+    {
+      "name": "Books Library",
+      "purpose": "Browse library with search, category chips, and a 3-column cover grid.",
+      "states": { "loading": "Cover skeleton grid", "empty": "Empty bookshelf illustration", "error": "Retry loading books" },
+      "layout": "Sticky search and scrollable category chips below the header. 3-column grid for covers with ornamental gold borders."
+    },
+    {
+      "name": "Reader",
+      "purpose": "Traditional parchment e-book reader with verse numbering and embedded audio player.",
+      "states": { "loading": "Parchment page turning animation/spinner", "empty": "N/A", "error": "Retry loading text" },
+      "layout": "Parchment Cream background. Serif text layout with traditional margins. Highlight currently playing verse in Premium Gold. Audio player card floats at bottom."
+    },
+    {
+      "name": "Bookmarks",
+      "purpose": "Manage bookmarks, verses, chapters, and notes.",
+      "states": { "loading": "List skeleton", "empty": "No bookmarks saved", "error": "Retry loading" },
+      "layout": "Filter chips at top. Cards with cover thumbnail and collection tags in Deep Maroon."
+    },
+    {
+      "name": "Settings & Drawer",
+      "purpose": "App settings, language selection, activity stats, and Dana donation.",
+      "states": { "loading": "List skeleton", "empty": "N/A", "error": "N/A" },
+      "layout": "Hamburger drawer with dark burgundy background and gold text. Settings list rows inside cream cards."
+    }
+  ],
+  "images": {
+    "devotional_header": {
+      "url": "https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwxfHxIaW5kdSUyMHRlbXBsZSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTQyMTI2NTd8MA&ixlib=rb-4.1.0&q=85",
+      "dark": "https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwxfHxIaW5kdSUyMHRlbXBsZSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTQyMTI2NTd8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Hindu temple architecture for devotional header"
+    },
+    "parchment_texture": {
+      "url": "https://images.unsplash.com/photo-1522442676585-c751dab71864?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwc2Fuc2tyaXQlMjBtYW51c2NyaXB0fGVufDB8fHx8MTc5NDIxMjY1N3ww&ixlib=rb-4.1.0&q=85",
+      "dark": "https://images.unsplash.com/photo-1522442676585-c751dab71864?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwc2Fuc2tyaXQlMjBtYW51c2NyaXB0fGVufDB8fHx8MTc5NDIxMjY1N3ww&ixlib=rb-4.1.0&q=85",
+      "alt": "Ancient Sanskrit manuscript parchment background"
+    },
+    "lotus_separator": {
+      "url": "https://images.unsplash.com/photo-1616874808521-c18c4e49bcd1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwyfHxsb3R1cyUyMGZsb3dlciUyMGdvbGRlbnxlbnwwfHx8fDE3OTQyMTI2NTd8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Golden lotus separator"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly use the defined color palette: Deep Maroon, Dark Burgundy, Antique Gold, Premium Gold, Parchment Cream, Ivory, Traditional Brown.",
+    "No glassmorphism, no SaaS gradients. Use solid cream cards with subtle gold borders/shadows.",
+    "Implement the bottom tab bar with a Deep Maroon background and a gold-bordered highlighted active tab (golden-brown gradient pill with gold text).",
+    "Use 'Crimson Text' for English UI, and ensure proper fallback for Noto Serif Devanagari / Telugu as required by the user.",
+    "Add golden lotus separators between major home sections and ornamental gold borders around book covers.",
+    "Ensure Reader mode uses a parchment style layout with Premium Gold highlights for the active playing audio verse."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "summary": "I ran frontend-only Playwright tests at 390x844 on the public Expo web preview, covering all 10 requested flows. Everything requested works end to end: the language flow (Telugu UI, which persists after reload, and quick switching back to English); Books search, category chips and the empty state; book details with TOC, download and bookmark; the reader with ch.7 verses, chapter/verse selectors, font size and dark mode; audio play/pause, time advancing, highlight moving with playback, tap-to-seek (7.3 jumps to 0:51 with te audio and 0:34 with en audio), speed cycling and prev/next while playing; long-press verse actions (bookmark, note, play, detail); bookmark tabs, search, sort, filter, collections (create, move, filter, delete) and remove, with data persisting after reload; the Settings audio-bar switch, which hides the progress bar and persists; logout with confirm, which goes to the language screen and keeps bookmarks; all 30 hamburger items, which navigate with no dead links; Dana with a DEMO receipt and history; My Activity stats that update; and Downloads delete. I found 3 functional bugs (paused-audio verse navigation, stale menu query params, a duplicate Logout baked into the art) plus several minor UI issues. Deprecated packages: none detected (the app uses expo-audio and expo-sqlite). SafeAreaView issues: none detected.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Reader audio prev/next + verse selector while PAUSED", "issue": "When audio is paused mid-track (time > 0), audio-prev-verse, audio-next-verse and verse-option-* do not change the highlighted or current verse. For example, paused at 0:27 on 7.2, tapping next or picking verse-option-7.6 leaves the highlight and audio-current-verse on 7.2. Root cause: highlight = audioVerse ?? selected, and audioVerse is still derived from status.time when paused, while stepVerse and verse-option only seek when status.playing. Reference: app/reader/[bookId].tsx:67-97,306", "testID": "audio-next-verse", "priority": "HIGH"},
+      {"component": "Hamburger menu → Books/Bookmarks stale params", "issue": "After menu-item-stotras (cat=stotras, 1 book), menu-item-allBooks still shows '1 books' because the category state is only set when a param is present and the tab screens stay mounted. The same pattern applies to bookmarks ?tab=notes followed by menu-item-bookmarks. Reference: app/(tabs)/books.tsx:28, app/(tabs)/bookmarks.tsx:32", "testID": "menu-item-allBooks", "priority": "MEDIUM"},
+      {"component": "Settings logout art", "issue": "assets/images/art/temples.jpg (cropped from a screenshot) has a large English 'Logout' button baked into it. The real settings-logout-button (marginTop:-40) sits on top of it, so two Logout buttons show, and in Telugu UI an English 'Logout' appears next to 'లాగౌట్'. Reference: app/(tabs)/settings.tsx:70-71", "testID": "settings-logout-button", "priority": "MEDIUM"},
+      {"component": "Bookmark item snippet font", "issue": "Telugu verse snippets in bookmark cards render with broken or separated glyphs when the UI is English. Txt picks its font from the UI language (Crimson), but the snippet text is in the reading language (Telugu). Reference: app/(tabs)/bookmarks.tsx:101, src/components/ui.tsx:30", "testID": "bookmark-item-*", "priority": "MEDIUM"},
+      {"component": "Dana custom amount", "issue": "Entering 0 or non-numeric text and tapping contribute does nothing silently: no toast or validation message, and 'abc' is accepted into the field on web. Reference: app/dana.tsx:28,50", "testID": "dana-custom-amount", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Global header (English)", "issues": ["The language pill overlaps the baked-in 'Sanatana Dharma' title in header_en.jpg, so the title reads 'Sanatana Dharm'."]},
+      {"screen": "Book details", "issues": ["The book-bookmark-button label is truncated to 'Bookmark...' when it says 'Bookmarked'."]},
+      {"screen": "Tab bar", "issues": ["The English 'Bookmarks' tab label is truncated to 'Bookmar...' when active."]},
+      {"screen": "Touch targets", "issues": ["audio-prev-verse, audio-next-verse and audio-volume are 36x36; audio-speed is 44x36; bookmark-remove and bookmark-move are 22-24px with hitSlop 8. These are below 44pt.", "header-menu-button is 44x40."]},
+      {"screen": "Books grid", "issues": ["15 books share 9 covers. All 4 Vedas show an identical cover, so they are hard to tell apart."]},
+      {"screen": "Reader settings sheet", "issues": ["An empty bordered box is rendered under 'Reading background'. It looks like a missing preview."]},
+      {"screen": "Reader (Telugu reading lang)", "issues": ["Editorial notes are shown only in English even when the reading language is Telugu."]}
+    ],
+    "react_native_issues": []
+  },
+  "test_report_links": ["/app/.screenshots (Playwright screenshots from this run)"],
+  "action_items": [
+    "Fix the reader so the highlight follows the user's selection when paused. Either clear or ignore audioVerse when not playing after a manual selection, or seek the player (without playing) in stepVerse and verse-option when the track exists: seekVerse(n, false).",
+    "Make Books and Bookmarks reset their category, sort and tab state when navigating without params (e.g. set cat to params.cat ?? 'all' on focus or param change), or have the menu always pass explicit params.",
+    "Replace temples.jpg with art that has no baked-in Logout button, or crop the button out.",
+    "Use the reading-language font (FONTS.te) for verse snippets in bookmark cards and other places that show reading-language text under an English UI.",
+    "Enlarge the small audio and bookmark controls to at least 44pt (min size or hitSlop), and fix the truncated Bookmarked and Bookmarks labels.",
+    "Show validation feedback for an invalid Dana amount."
+  ],
+  "critical_code_review_comments": [
+    "AppContext performs DB side effects (put/del) inside setState updater functions (setPrefs, toggleBookmark, logout, deleteCollection). Updaters must be pure; in StrictMode they run twice. Move persistence outside the updaters.",
+    "toggleBookmark returns a closure '() => added' that relies on the updater running synchronously. This is fragile; return a computed boolean instead.",
+    "Bookmark remove and collection delete have no confirm or undo."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend used)", "frontend": "~92% of the requested flows pass; 3 functional bugs and minor UI issues found"},
+  "seed_data_creation": "None. Every test ran in a fresh browser context with localStorage only. A TEST_note and a TEST_Favs collection were created inside those ephemeral contexts.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Each browser_automation run starts with fresh localStorage, so tap language-continue-button first. Tab screens stay mounted, so pick the last visible element for duplicated testIDs. Long-press works with mouse.down, an 800ms wait, then mouse.up after scroll_into_view. Sheet close buttons use the testID '<sheetTestID>-close'. Audio playback works in headless Chromium.",
+  "rca_of_issue": "Paused-navigation bug: in reader/[bookId].tsx, audioVerse is non-null whenever status.time > 0.05 (even when paused) and it takes precedence over selected. Repro: play, wait about 27s (now on 7.2), pause, tap audio-next-verse. The highlight stays on 7.2."
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "Iteration 2 frontend-only retest at 390x844 on the public Expo web preview. All 3 bugs from iteration 1 are fixed and the regression checks pass. (1) Paused-audio verse navigation: play ch.7, then at 0:27 on 7.2 the highlight had followed the audio (7.1 to 7.2). Pause, and the highlight stays on 7.2. Next moves it to 7.3, prev back to 7.2, and verse-option-7.6 to 7.6; both the highlight bg and the audio-current-verse label update each time. Pressing play then resumes from 7.6 (seek to 2:02, time 2:04 after 3s). Tapping verse-7.3 while paused seeks to 0:49 and starts playback. (2) Menu Stotras shows '1 books', then menu All Books shows '15 books' (URL /books). Menu My Notes selects the Notes tab, then menu Bookmarks selects the All tab. (3) Settings has one Logout button, the temples image is gone (only header and avatar images), and the confirm dialog works: cancel stays, OK goes to /language?onboarding=1. (4) Dana custom input '12a.5-b3' becomes '1253'; amount 0 shows the toast 'Amount > 0' and no receipt. (5) Regression: long-press verse 7.4 opens the action sheet, Bookmark adds the bookmarked icon, and the item shows in the Bookmarks list. The quick language switch to Telugu and back to English works (screen title బుక్‌మార్క్స్ / Bookmarks). Deprecated packages: none detected. SafeAreaView issues: none detected.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Dana zero-amount toast", "issue": "The toast text is built as t('amount') + ' > 0', so users see 'Amount > 0' (Telugu: 'మొత్తం > 0'). It works but reads like code; it should be a proper localized message such as 'Please enter an amount greater than 0'. Reference: app/dana.tsx:50", "testID": "dana-contribute-button", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": []
+  },
+  "test_report_links": [".screenshots/paused_76.jpeg", ".screenshots/allbooks.jpeg", ".screenshots/bm.jpeg", ".screenshots/dana0.jpeg", ".screenshots/settings_bottom.jpeg", ".screenshots/bm_te.jpeg"],
+  "action_items": [
+    "Optional (LOW): replace the 'Amount > 0' toast with a localized i18n key, e.g. amountRequired.",
+    "Optional cleanup: the unused 'temples' style is still in app/(tabs)/settings.tsx:87."
+  ],
+  "critical_code_review_comments": [
+    "Reader fix is correct: audioVerse is null when paused (highlight = selected), and togglePlay seeks to the selected verse before play when it differs from the verse at the current time.",
+    "books.tsx and bookmarks.tsx now reset state from params in useEffect, defaulting to 'all'.",
+    "Dead style 'temples' left in settings.tsx after the image was removed."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (not requested)", "frontend": "100% (6/6 requested flows)"},
+  "seed_data_creation": "None. The bookmark on verse 7.4 was made in an ephemeral Playwright browser context (client-side storage only), so nothing persisted.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Header testIDs repeat across mounted tabs, so use ':visible' or .last. Te audio segment starts: 7.2=25.25, 7.3=49.45, 7.6=121.96. Highlighted verse bg is rgb(251,227,160). Long-press works via mouse.down, wait 700ms, mouse.up. Bookmark item testID format: bookmark-item-bhagavad-gita-c7-v4.",
+  "rca_of_issue": ""
+}

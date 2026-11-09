@@ -1,0 +1,94 @@
+{
+ "te": {
+  "duration": 190.9,
+  "segments": [
+   {
+    "verse": 1,
+    "start": 0.0,
+    "end": 24.55
+   },
+   {
+    "verse": 2,
+    "start": 25.25,
+    "end": 48.75
+   },
+   {
+    "verse": 3,
+    "start": 49.45,
+    "end": 74.7
+   },
+   {
+    "verse": 4,
+    "start": 75.4,
+    "end": 96.35
+   },
+   {
+    "verse": 5,
+    "start": 97.05,
+    "end": 121.26
+   },
+   {
+    "verse": 6,
+    "start": 121.96,
+    "end": 142.77
+   },
+   {
+    "verse": 7,
+    "start": 143.47,
+    "end": 165.17
+   },
+   {
+    "verse": 8,
+    "start": 165.87,
+    "end": 190.52
+   }
+  ],
+  "bytes": 1527404
+ },
+ "en": {
+  "duration": 126.02,
+  "segments": [
+   {
+    "verse": 1,
+    "start": 0.0,
+    "end": 17.66
+   },
+   {
+    "verse": 2,
+    "start": 18.36,
+    "end": 31.56
+   },
+   {
+    "verse": 3,
+    "start": 32.26,
+    "end": 47.58
+   },
+   {
+    "verse": 4,
+    "start": 48.28,
+    "end": 60.13
+   },
+   {
+    "verse": 5,
+    "start": 60.83,
+    "end": 77.68
+   },
+   {
+    "verse": 6,
+    "start": 78.38,
+    "end": 93.98
+   },
+   {
+    "verse": 7,
+    "start": 94.68,
+    "end": 108.19
+   },
+   {
+    "verse": 8,
+    "start": 108.89,
+    "end": 125.64
+   }
+  ],
+  "bytes": 1008428
+ }
+}

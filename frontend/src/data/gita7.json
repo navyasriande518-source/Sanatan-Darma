@@ -1,0 +1,66 @@
+{
+  "bookId": "bhagavad-gita",
+  "chapter": 7,
+  "verses": [
+    {
+      "n": 1,
+      "speaker": "श्रीभगवानुवाच",
+      "sa": "मय्यासक्तमनाः पार्थ योगं युञ्जन्मदाश्रयः ।\nअसंशयं समग्रं मां यथा ज्ञास्यसि तच्छृणु ॥",
+      "iast": "mayy āsakta-manāḥ pārtha yogaṃ yuñjan mad-āśrayaḥ |\nasaṃśayaṃ samagraṃ māṃ yathā jñāsyasi tac chṛṇu ||",
+      "en": "The Blessed Lord said: O Pārtha, hear how, with your mind attached to Me, practising yoga and taking refuge in Me, you shall know Me completely, free from doubt.",
+      "te": "శ్రీ భగవానుడు పలికెను: ఓ పార్థా! నా యందు మనస్సును లగ్నం చేసి, నన్నే ఆశ్రయించి యోగాన్ని అభ్యసిస్తూ, సందేహం లేకుండా నన్ను సంపూర్ణంగా ఎలా తెలుసుకుంటావో దానిని విను."
+    },
+    {
+      "n": 2,
+      "sa": "ज्ञानं तेऽहं सविज्ञानमिदं वक्ष्याम्यशेषतः ।\nयज्ज्ञात्वा नेह भूयोऽन्यज्ज्ञातव्यमवशिष्यते ॥",
+      "iast": "jñānaṃ te 'haṃ sa-vijñānam idaṃ vakṣyāmy aśeṣataḥ |\nyaj jñātvā neha bhūyo 'nyaj jñātavyam avaśiṣyate ||",
+      "en": "I shall declare to you in full this knowledge together with its realization, knowing which nothing more remains to be known here.",
+      "te": "విజ్ఞానంతో కూడిన ఈ జ్ఞానాన్ని నేను నీకు సంపూర్ణంగా చెబుతాను; దీనిని తెలుసుకున్న తరువాత ఈ లోకంలో తెలుసుకోవలసినది మరేదీ మిగిలి ఉండదు."
+    },
+    {
+      "n": 3,
+      "sa": "मनुष्याणां सहस्रेषु कश्चिद्यतति सिद्धये ।\nयततामपि सिद्धानां कश्चिन्मां वेत्ति तत्त्वतः ॥",
+      "iast": "manuṣyāṇāṃ sahasreṣu kaścid yatati siddhaye |\nyatatām api siddhānāṃ kaścin māṃ vetti tattvataḥ ||",
+      "en": "Among thousands of people, scarcely one strives for perfection; and among those who strive and succeed, scarcely one knows Me in truth.",
+      "te": "వేలాది మనుష్యులలో ఎవరో ఒకరు మాత్రమే సిద్ధి కొరకు ప్రయత్నిస్తారు; అలా ప్రయత్నించి సిద్ధులైన వారిలో కూడా ఎవరో ఒకరు మాత్రమే నన్ను యథార్థంగా తెలుసుకుంటారు.",
+      "noteEn": "Editorial note (demo): the verse stresses how rare true knowledge of the Divine is, even among sincere seekers."
+    },
+    {
+      "n": 4,
+      "sa": "भूमिरापोऽनलो वायुः खं मनो बुद्धिरेव च ।\nअहंकार इतीयं मे भिन्ना प्रकृतिरष्टधा ॥",
+      "iast": "bhūmir āpo 'nalo vāyuḥ khaṃ mano buddhir eva ca |\nahaṃkāra itīyaṃ me bhinnā prakṛtir aṣṭadhā ||",
+      "en": "Earth, water, fire, air, space, mind, intellect and ego — this is My nature, divided eightfold.",
+      "te": "భూమి, నీరు, అగ్ని, వాయువు, ఆకాశం, మనస్సు, బుద్ధి, అహంకారం — ఈ ఎనిమిది విధాలుగా విభజింపబడినది నా ప్రకృతి.",
+      "noteEn": "Editorial note (demo): five elements plus mind, intellect and ego make up the 'lower' (aparā) nature described in the next verse."
+    },
+    {
+      "n": 5,
+      "sa": "अपरेयमितस्त्वन्यां प्रकृतिं विद्धि मे पराम् ।\nजीवभूतां महाबाहो ययेदं धार्यते जगत् ॥",
+      "iast": "apareyam itas tv anyāṃ prakṛtiṃ viddhi me parām |\njīva-bhūtāṃ mahā-bāho yayedaṃ dhāryate jagat ||",
+      "en": "This is My lower nature. But know, O mighty-armed one, My other, higher nature — the life-principle, by which this universe is sustained.",
+      "te": "ఓ మహాబాహూ! ఇది నా అపర (తక్కువ) ప్రకృతి. దీనికి భిన్నమైన, జీవరూపమైన నా పర (ఉన్నత) ప్రకృతిని తెలుసుకో; దాని చేతనే ఈ జగత్తు ధరింపబడుతోంది."
+    },
+    {
+      "n": 6,
+      "sa": "एतद्योनीनि भूतानि सर्वाणीत्युपधारय ।\nअहं कृत्स्नस्य जगतः प्रभवः प्रलयस्तथा ॥",
+      "iast": "etad-yonīni bhūtāni sarvāṇīty upadhāraya |\nahaṃ kṛtsnasya jagataḥ prabhavaḥ pralayas tathā ||",
+      "en": "Know that all beings have their origin in these two natures. I am the source of the whole universe, and also its dissolution.",
+      "te": "సమస్త ప్రాణులు ఈ రెండు ప్రకృతుల నుండే పుడుతున్నాయని గ్రహించు. సమస్త జగత్తు యొక్క ఉత్పత్తికి, లయానికి నేనే కారణం."
+    },
+    {
+      "n": 7,
+      "sa": "मत्तः परतरं नान्यत्किंचिदस्ति धनंजय ।\nमयि सर्वमिदं प्रोतं सूत्रे मणिगणा इव ॥",
+      "iast": "mattaḥ parataraṃ nānyat kiṃcid asti dhanaṃjaya |\nmayi sarvam idaṃ protaṃ sūtre maṇi-gaṇā iva ||",
+      "en": "There is nothing whatsoever higher than Me, O Dhanañjaya. All this is strung on Me, like clusters of gems on a thread.",
+      "te": "ఓ ధనంజయా! నాకంటే ఉన్నతమైనది మరేదీ లేదు. దారంలో మణులు గుచ్చబడినట్లు ఈ సమస్తమూ నా యందే గుచ్చబడి ఉంది.",
+      "noteEn": "Editorial note (demo): the image of gems on a thread shows the Divine as the unseen support running through all things."
+    },
+    {
+      "n": 8,
+      "sa": "रसोऽहमप्सु कौन्तेय प्रभास्मि शशिसूर्ययोः ।\nप्रणवः सर्ववेदेषु शब्दः खे पौरुषं नृषु ॥",
+      "iast": "raso 'ham apsu kaunteya prabhāsmi śaśi-sūryayoḥ |\npraṇavaḥ sarva-vedeṣu śabdaḥ khe pauruṣaṃ nṛṣu ||",
+      "en": "I am the taste in water, O son of Kuntī; I am the radiance of the moon and the sun; I am the sacred syllable Om in all the Vedas, the sound in space, and the strength in human beings.",
+      "te": "ఓ కౌంతేయా! నీటిలో రుచిని నేను, చంద్రసూర్యులలో కాంతిని నేను, సమస్త వేదాలలో ఓంకారాన్ని నేను, ఆకాశంలో శబ్దాన్ని, మనుష్యులలో పౌరుషాన్ని నేనే."
+    }
+  ]
+}
