@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, TextInput, View, useWindowDimensions } from "react-native";
 
@@ -56,6 +56,11 @@ export default function Books() {
           <Icon name="filter-variant" size={24} color={colors.maroon} />
         </Pressable>
       </View>
+      <Pressable testID="open-verse-search" onPress={() => router.push("/search")} style={s.verseSearch}>
+        <Icon name="text-search" size={20} color={colors.maroon} />
+        <Txt v="semi" size={15} color={colors.maroon}>{t("searchVerses")}</Txt>
+        <Icon name="chevron-right" size={20} color={colors.maroon} />
+      </Pressable>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.chipsRow} contentContainerStyle={s.chips}>
         <Chip testID="books-cat-all" label={t("allBooks")} active={cat === "all"} onPress={() => setCat("all")} />
         {CATEGORIES.map((c) => <Chip key={c.id} testID={`books-cat-${c.id}`} label={L(c.name)} icon={c.icon} active={cat === c.id} onPress={() => setCat(c.id)} />)}
@@ -95,6 +100,7 @@ const useStyles = makeStyles((c) => ({
   search: { flex: 1, height: 48, flexDirection: "row", alignItems: "center", gap: spacing.sm, backgroundColor: c.ivory, borderRadius: radius.pill, borderWidth: 1, borderColor: c.cardBorder, paddingHorizontal: spacing.md },
   input: { flex: 1, fontSize: 16, color: c.onSurface, fontFamily: "Crimson", height: 46 },
   filterBtn: { width: 48, height: 48, borderRadius: radius.lg, backgroundColor: c.ivory, borderWidth: 1, borderColor: c.cardBorder, alignItems: "center", justifyContent: "center" },
+  verseSearch: { marginHorizontal: spacing.lg, marginTop: spacing.sm, height: 44, paddingHorizontal: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: c.gold, backgroundColor: c.highlight, flexDirection: "row", alignItems: "center", gap: spacing.sm },
   chipsRow: { height: 56, flexGrow: 0 },
   chips: { gap: spacing.sm, paddingHorizontal: spacing.lg, alignItems: "center" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },

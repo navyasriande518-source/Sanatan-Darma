@@ -42,7 +42,8 @@
       "expo-audio",
       "expo-sqlite",
       "@react-native-vector-icons/ionicons",
-      "@react-native-vector-icons/material-design-icons"
+      "@react-native-vector-icons/material-design-icons",
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true

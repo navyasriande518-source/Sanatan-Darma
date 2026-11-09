@@ -2,12 +2,13 @@ import * as Clipboard from "expo-clipboard";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AppState, BackHandler, Pressable, ScrollView, Share, TextInput, View } from "react-native";
+import { AppState, BackHandler, Pressable, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AppHeader } from "@/src/components/AppHeader";
 import { ReaderSettingsSheet } from "@/src/components/ReaderSettings";
 import { Sheet } from "@/src/components/Sheet";
+import { VerseShareModal } from "@/src/components/VerseShareCard";
 import { EmptyState, FONTS, GoldButton, Icon, Txt, fmtTime } from "@/src/components/ui";
 import { Verse, getBook, getTrack } from "@/src/data/content";
 import { getPlayer, stopPlayer } from "@/src/lib/player";
@@ -33,6 +34,7 @@ export default function Reader() {
   const verses = chapter?.verses ?? [];
   const [selected, setSelected] = useState<number | null>(params.verse ? Number(params.verse) : verses[0]?.n ?? null);
   const [sheet, setSheet] = useState<null | "chapters" | "verses" | "settings" | "actions" | "note">(null);
+  const [shareCard, setShareCard] = useState<Verse | null>(null);
   const [actionVerse, setActionVerse] = useState<Verse | null>(null);
   const [noteText, setNoteText] = useState("");
   const scrollRef = useRef<any>(null);
@@ -66,7 +68,7 @@ export default function Reader() {
 
   const audioVerse = useMemo(() => {
     if (!track || !status.playing) return null;
-    const seg = track.segments.find((g, i) => status.time >= g.start && status.time < (track.segments[i + 1]?.start ?? Infinity));
+    const seg = track.segments.find((g) => status.time >= g.start && status.time < g.end);
     return seg?.verse ?? null;
   }, [track, status.time, status.playing]);
   useEffect(() => { if (audioVerse != null) setSelected(audioVerse); }, [audioVerse]);
@@ -84,7 +86,7 @@ export default function Reader() {
     if (!p) return;
     if (p.playing) p.pause();
     else {
-      const cur = track?.segments.find((g, i) => status.time >= g.start && status.time < (track.segments[i + 1]?.start ?? Infinity));
+      const cur = track?.segments.find((g) => status.time >= g.start && status.time < g.end);
       if (selected && cur?.verse !== selected) seekVerse(selected, false);
       p.play();
     }
@@ -250,7 +252,7 @@ export default function Reader() {
         <View style={s.fabs}>
           <Pressable testID="reader-settings-button" onPress={() => setSheet("settings")} style={s.fab}><Txt v="bold" size={18} color={colors.maroon}>Aa</Txt></Pressable>
           <Pressable testID="reader-dark-toggle" onPress={() => setPrefs({ readerDark: !prefs.readerDark })} style={s.fab}><Icon name={prefs.readerDark ? "white-balance-sunny" : "weather-night"} size={22} color={colors.maroon} /></Pressable>
-          <Pressable testID="reader-share-button" onPress={() => selV && Share.share({ message: shareText(selV) })} style={s.fab}><Icon name="share-variant-outline" size={22} color={colors.maroon} /></Pressable>
+          <Pressable testID="reader-share-button" onPress={() => selV && setShareCard(selV)} style={s.fab}><Icon name="share-variant-outline" size={22} color={colors.maroon} /></Pressable>
         </View>
       </View>
 
@@ -319,7 +321,7 @@ export default function Reader() {
               { id: "bookmark", icon: isBm(actionVerse) ? "bookmark-remove-outline" : "bookmark-plus-outline", label: isBm(actionVerse) ? t("removeBookmark") : t("addBookmark"), fn: () => { const was = isBm(actionVerse); app.toggleBookmark({ type: "verse", bookId: book.id, chapterId: actionVerse.chapterId, verseId: actionVerse.id }); toast(was ? t("bookmarkRemoved") : t("bookmarkAdded")); setSheet(null); } },
               { id: "note", icon: "note-edit-outline", label: notes.some((n) => n.id === actionVerse.id) ? t("editNote") : t("addNote"), fn: () => { setNoteText(notes.find((n) => n.id === actionVerse.id)?.text ?? ""); setSheet("note"); } },
               { id: "copy", icon: "content-copy", label: t("copy"), fn: async () => { await Clipboard.setStringAsync(shareText(actionVerse)); toast(t("copied")); setSheet(null); } },
-              { id: "share", icon: "share-variant-outline", label: t("share"), fn: () => { setSheet(null); Share.share({ message: shareText(actionVerse) }); } },
+              { id: "share", icon: "share-variant-outline", label: t("share"), fn: () => { setSheet(null); setShareCard(actionVerse); } },
               ...(track ? [{ id: "play", icon: "play-circle-outline", label: t("playFromHere"), fn: () => { setSheet(null); setSelected(actionVerse.n); seekVerse(actionVerse.n); } }] : []),
               { id: "detail", icon: "text-box-outline", label: t("readFull"), fn: () => { setSheet(null); router.push(`/verse/${actionVerse.id}`); } },
             ].map((a) => (
@@ -335,6 +337,7 @@ export default function Reader() {
         <TextInput testID="note-input" value={noteText} onChangeText={setNoteText} placeholder={t("notePlaceholder")} placeholderTextColor={colors.muted} multiline style={s.input} />
         <GoldButton testID="note-save-button" label={t("save")} icon="content-save-outline" onPress={() => { if (actionVerse) app.saveNote(actionVerse.id, noteText); toast(t("saved")); setSheet(null); }} />
       </Sheet>
+      <VerseShareModal visible={!!shareCard} verse={shareCard} title={L(book.title, prefs.readLang)} script={shareCard ? (te ? toTelugu(shareCard.sa) : shareCard.iast ?? shareCard.sa) : ""} translation={shareCard ? (te ? shareCard.te ?? shareCard.en : shareCard.en) : ""} onClose={() => setShareCard(null)} toast={toast} />
     </View>
   );
 }

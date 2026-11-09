@@ -1,8 +1,9 @@
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Share, View } from "react-native";
+import { View } from "react-native";
 
 import { Screen } from "@/src/components/Screen";
+import { VerseShareModal } from "@/src/components/VerseShareCard";
 import { Card, EmptyState, GoldButton, Txt } from "@/src/components/ui";
 import { dailyVerse, getBook, getChapter, getVerse } from "@/src/data/content";
 import { toTelugu } from "@/src/lib/translit";
@@ -14,6 +15,7 @@ export default function VerseDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t, L, prefs, bookmarks, toggleBookmark, toast } = useApp();
   const { colors } = useTheme();
+  const [shareCard, setShareCard] = React.useState(false);
   const v = id === "daily" ? dailyVerse() : getVerse(id);
   if (!v) return <Screen back title={t("verse")}><EmptyState icon="book-remove-outline" text={t("noResults")} /></Screen>;
   const b = getBook(v.bookId)!;
@@ -39,8 +41,9 @@ export default function VerseDetail() {
       <View style={{ gap: spacing.sm }}>
         <GoldButton testID="verse-detail-open-reader" label={t("open")} icon="book-open-variant" onPress={() => router.push(`/reader/${b.id}?chapter=${c.number}&verse=${v.n}`)} />
         <GoldButton testID="verse-detail-bookmark" variant="cream" label={isBm ? t("removeBookmark") : t("addBookmark")} icon={isBm ? "bookmark" : "bookmark-outline"} onPress={() => { toggleBookmark({ type: "verse", bookId: b.id, chapterId: c.id, verseId: v.id }); toast(isBm ? t("bookmarkRemoved") : t("bookmarkAdded")); }} />
-        <GoldButton testID="verse-detail-share" variant="cream" label={t("share")} icon="share-variant-outline" onPress={() => Share.share({ message: `${L(b.title, prefs.readLang)} ${v.ref}\n\n${v.sa}\n\n${prefs.readLang === "te" ? v.te ?? v.en : v.en}` })} />
+        <GoldButton testID="verse-detail-share" variant="cream" label={t("share")} icon="share-variant-outline" onPress={() => setShareCard(true)} />
       </View>
+      <VerseShareModal visible={shareCard} verse={v} title={L(b.title, prefs.readLang)} script={prefs.readLang === "te" ? toTelugu(v.sa) : v.iast ?? v.sa} translation={prefs.readLang === "te" ? v.te ?? v.en : v.en} onClose={() => setShareCard(false)} toast={toast} />
     </Screen>
   );
 }
