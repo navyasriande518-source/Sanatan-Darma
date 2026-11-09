@@ -2,6 +2,7 @@
   "expo": {
     "name": "Sanatana Dharma",
     "slug": "sanatana-dharma-library",
+    "owner": "navyasriande518-team",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
